@@ -2,7 +2,7 @@ import axios from 'axios';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Product } from '../types';
 
-const url = 'http://localhost:3000/products';
+const url = 'http://localhost:3002/products';
 
 export const createProduct = async (createProductDto: CreateProductDto) => {
   const response = await axios.post(url, createProductDto);

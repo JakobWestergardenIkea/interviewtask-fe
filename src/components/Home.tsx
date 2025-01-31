@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import Header from './Header';
 import plusIcon from '../assets/plus.png';
 import { getAllProducts } from '../api/products';
 import { Product } from '../types';
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [products, setProducts] = useState<{ id: string; name: string }[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -30,12 +30,6 @@ const Home = () => {
     height: '100vh',
     margin: '0 40px',
     fontSize: '20px'
-  };
-
-  const headerStyle: React.CSSProperties = {
-    gridColumn: '1 / span 2',
-    display: 'flex',
-    alignItems: 'center'
   };
 
   const textStyle: React.CSSProperties = {
@@ -96,9 +90,20 @@ const Home = () => {
     left: 0
   };
 
-  const listItemStyle: React.CSSProperties = {
+  const tableStyle: React.CSSProperties = {
+    width: '100%',
+    borderCollapse: 'collapse'
+  };
+
+  const thStyle: React.CSSProperties = {
+    border: '1px solid #ccc',
     padding: '10px',
-    cursor: 'pointer'
+    backgroundColor: '#f1f1f1'
+  };
+
+  const tdStyle: React.CSSProperties = {
+    border: '1px solid #ccc',
+    padding: '10px'
   };
 
   const addProductContainerStyle: React.CSSProperties = {
@@ -125,9 +130,7 @@ const Home = () => {
 
   return (
     <div style={containerStyle}>
-      <div style={headerStyle}>
-        <img src={logo} alt="IKEA Logo" style={{ width: '100px', marginBottom: '20px' }} />
-      </div>
+      <Header />
       <div style={textStyle}>
         <h1>Hello and welcome to IKEA product tool</h1>
         <p>Here you can browse our exciting range of IKEA products. Use the search bar to find specific items, or explore our categories to discover what you need. If there is something missing, you can even add your own products to our collection.</p>
@@ -145,15 +148,26 @@ const Home = () => {
             />
           </div>
           <div style={dropdownStyle}>
-            {filteredProducts.map((product, index) => (
-              <div
-                key={index}
-                style={listItemStyle}
-                onClick={() => console.log(product.name)}
-              >
-                {product.name}
-              </div>
-            ))}
+            <table style={tableStyle}>
+              <thead>
+                <tr>
+                  <th style={thStyle}>ID</th>
+                  <th style={thStyle}>Name</th>
+                  <th style={thStyle}>Product Type</th>
+                  <th style={thStyle}>Colors</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredProducts.map((product, index) => (
+                  <tr key={index} onClick={() => console.log(product.name)}>
+                    <td style={tdStyle}>{product._id}</td>
+                    <td style={tdStyle}>{product.name}</td>
+                    <td style={tdStyle}>{product.type}</td>
+                    <td style={tdStyle}>{product.colours.join(', ')}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

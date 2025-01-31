@@ -9,12 +9,7 @@ export const createProduct = async (createProductDto: CreateProductDto) => {
   return response.data;
 };
 
-export const getAllProducts = async (): Promise<{ id: string; name: string }[]>  => {
+export const getAllProducts = async (): Promise<Product[]>  => {
   const response = await axios.get(url);
-  return response.data;
-};
-
-export const getProductById = async (id: string): Promise<Product> => {
-  const response = await axios.get(`${url}/${id}`);
   return response.data;
 };

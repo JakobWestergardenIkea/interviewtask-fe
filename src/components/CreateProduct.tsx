@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import Header from './Header';
 import { getAllColours } from '../api/colours';
 import { getAllProductTypes } from '../api/producttypes';
 import { Colour, ProductType } from '../types';
 import { createProduct } from '../api/products';
+import { useNavigate } from 'react-router-dom';
 
 const CreateProduct = () => {
   const [colorQuery, setColorQuery] = useState('');
@@ -14,14 +14,8 @@ const CreateProduct = () => {
   const [selectedColors, setSelectedColors] = useState<Colour[]>([]);
   const [productTypes, setProductTypes] = useState<ProductType[]>([]);
   const [selectedProductType, setSelectedProductType] = useState<ProductType | null>(null);
-  const navigate = useNavigate();
 
-  const resetState = () => {
-    setProductName('');
-    setSelectedColors([]);
-    setSelectedProductType(null);
-    navigate('/')
-  }
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchColours = async () => {
@@ -60,18 +54,14 @@ const CreateProduct = () => {
     setSelectedProductType(productType);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!productName || !selectedProductType || selectedColors.length === 0) {
       alert('Please fill out all fields');
-      resetState();
       return;
     }
-    console.log('Product Name:', productName);
-    console.log('Product Type:', selectedProductType);
-    console.log('Colours:', selectedColors);
-    createProduct({name: productName, typeId: selectedProductType?._id, colourIds: selectedColors.map(color => color._id)});
-    resetState();
-  }
+    await createProduct({ name: productName, typeId: selectedProductType?._id, colourIds: selectedColors.map(color => color._id) });
+    navigate('/');
+  };
 
   const containerStyle: React.CSSProperties = {
     display: 'grid',
@@ -81,12 +71,6 @@ const CreateProduct = () => {
     height: '100vh',
     margin: '0 40px',
     fontSize: '20px'
-  };
-
-  const headerStyle: React.CSSProperties = {
-    gridColumn: '1 / span 2',
-    display: 'flex',
-    alignItems: 'center'
   };
 
   const textStyle: React.CSSProperties = {
@@ -165,22 +149,26 @@ const CreateProduct = () => {
 
   const buttonContainerStyle: React.CSSProperties = {
     display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '20px',
-    margin: 'auto 0'
+    gap: '0',
+    margin: 'auto 0',
+    width: '80%',
+    marginTop: '20px'
   };
-
+  
   const buttonStyle: React.CSSProperties = {
-    padding: '10px 20px',
-    fontSize: '16px',
+    padding: '25px',
+    fontSize: '18px',
     cursor: 'pointer',
     borderRadius: '4px',
-    border: 'none',
-    backgroundColor: '#007BFF',
-    color: 'white'
-  };
+    border: '1px solid #ccc',
+    backgroundColor: 'white',
+    width: '60%',
+    textAlign: 'center',
+    textDecoration: 'none',
+    color: 'inherit'
+  };  
 
   const inputGridStyle: React.CSSProperties = {
     display: 'grid',
@@ -190,9 +178,7 @@ const CreateProduct = () => {
 
   return (
     <div style={containerStyle}>
-      <div style={headerStyle}>
-        <img src={logo} alt="IKEA Logo" style={{ width: '100px', marginBottom: '20px' }} />
-      </div>
+      <Header />
       <div style={textStyle}>
         <h1>Here you can add your own products to the IKEA line</h1>
         <p>Add a product to the IKEA line and share what product type it is and which colors the product has.</p>
@@ -262,7 +248,6 @@ const CreateProduct = () => {
         </div>
         <div style={buttonContainerStyle}>
           <button style={buttonStyle} onClick={handleSubmit}>Submit</button>
-          <button style={buttonStyle} onClick={resetState}>Go Back</button>
         </div>
       </div>
     </div>

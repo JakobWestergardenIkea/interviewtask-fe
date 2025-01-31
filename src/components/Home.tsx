@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import plusIcon from '../assets/plus.png';
+import { getAllProducts } from '../api/products';
+import { Product } from '../types';
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const ikeaProducts = ['Billy Bookcase', 'Malm Bed', 'Poang Chair', 'Kallax Shelf', 'Lack Table'];
-  const filteredProducts = ikeaProducts.filter(product =>
-    product.toLowerCase().includes(searchQuery.toLowerCase())
+  const [products, setProducts] = useState<{ id: string; name: string }[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const products = await getAllProducts();
+      setProducts(products);
+    };
+
+    fetchProducts();
+  }, []);
+
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const containerStyle: React.CSSProperties = {
@@ -137,9 +149,9 @@ const Home = () => {
               <div
                 key={index}
                 style={listItemStyle}
-                onClick={() => console.log(product)}
+                onClick={() => console.log(product.name)}
               >
-                {product}
+                {product.name}
               </div>
             ))}
           </div>

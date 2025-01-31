@@ -1,23 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { getAllColours } from '../api/colours';
+import { getAllProductTypes } from '../api/producttypes';
+import { Colour, ProductType } from '../types';
+import { createProduct } from '../api/products';
 
 const CreateProduct = () => {
   const [colorQuery, setColorQuery] = useState('');
   const [productTypeQuery, setProductTypeQuery] = useState('');
   const [productName, setProductName] = useState('');
+  const [colors, setColors] = useState<Colour[]>([]);
+  const [selectedColors, setSelectedColors] = useState<Colour[]>([]);
+  const [productTypes, setProductTypes] = useState<ProductType[]>([]);
+  const [selectedProductType, setSelectedProductType] = useState<ProductType | null>(null);
   const navigate = useNavigate();
 
-  const colors = ['Red', 'Blue', 'Green', 'Yellow', 'Black'];
-  const productTypes = ['Chair', 'Table', 'Bed', 'Sofa', 'Shelf'];
+  const resetState = () => {
+    setProductName('');
+    setSelectedColors([]);
+    setSelectedProductType(null);
+    navigate('/')
+  }
+
+  useEffect(() => {
+    const fetchColours = async () => {
+      const colours = await getAllColours();
+      setColors(colours);
+    };
+
+    const fetchProductTypes = async () => {
+      const productTypes = await getAllProductTypes();
+      setProductTypes(productTypes);
+    };
+
+    fetchColours();
+    fetchProductTypes();
+  }, []);
 
   const filteredColors = colors.filter(color =>
-    color.toLowerCase().includes(colorQuery.toLowerCase())
+    color.name.toLowerCase().includes(colorQuery.toLowerCase())
   );
 
   const filteredProductTypes = productTypes.filter(productType =>
-    productType.toLowerCase().includes(productTypeQuery.toLowerCase())
+    productType.name.toLowerCase().includes(productTypeQuery.toLowerCase())
   );
+
+  const handleColorSelect = (color: Colour) => {
+    setSelectedColors(prevSelectedColors => {
+      if (prevSelectedColors.includes(color)) {
+        return prevSelectedColors.filter(c => c !== color);
+      } else {
+        return [...prevSelectedColors, color];
+      }
+    });
+  };
+
+  const handleProductTypeSelect = (productType: ProductType) => {
+    setSelectedProductType(productType);
+  };
+
+  const handleSubmit = () => {
+    if (!productName || !selectedProductType || selectedColors.length === 0) {
+      alert('Please fill out all fields');
+      resetState();
+      return;
+    }
+    console.log('Product Name:', productName);
+    console.log('Product Type:', selectedProductType);
+    console.log('Colours:', selectedColors);
+    createProduct({name: productName, typeId: selectedProductType?._id, colourIds: selectedColors.map(color => color._id)});
+    resetState();
+  }
 
   const containerStyle: React.CSSProperties = {
     display: 'grid',
@@ -47,13 +101,13 @@ const CreateProduct = () => {
     gridTemplateColumns: '50% 50%',
     gap: '20px',
     padding: '20px',
-    alignItems: 'stretch' // Allow child elements to control their own alignment
+    alignItems: 'stretch'
   };
 
   const searchContainerStyle: React.CSSProperties = {
     display: 'flex',
     gap: '20px',
-    alignItems: 'flex-start' // Align items to the top
+    alignItems: 'flex-start'
   };
 
   const searchWrapperStyle: React.CSSProperties = {
@@ -90,7 +144,7 @@ const CreateProduct = () => {
     maxHeight: '300px',
     overflowY: 'auto',
     position: 'absolute',
-    width: '100%', // Match the width of the search bar
+    width: '100%',
     backgroundColor: 'white',
     zIndex: 1,
     boxSizing: 'border-box',
@@ -103,13 +157,19 @@ const CreateProduct = () => {
     cursor: 'pointer'
   };
 
+  const selectedListItemStyle: React.CSSProperties = {
+    ...listItemStyle,
+    backgroundColor: '#007BFF',
+    color: 'white'
+  };
+
   const buttonContainerStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     gap: '20px',
-    margin: 'auto 0' // Center vertically
+    margin: 'auto 0'
   };
 
   const buttonStyle: React.CSSProperties = {
@@ -155,10 +215,10 @@ const CreateProduct = () => {
                 {(colorQuery ? filteredColors : colors).map((color, index) => (
                   <div
                     key={index}
-                    style={listItemStyle}
-                    onClick={() => setColorQuery(color)}
+                    style={selectedColors.includes(color) ? selectedListItemStyle : listItemStyle}
+                    onClick={() => handleColorSelect(color)}
                   >
-                    {color}
+                    {color.name}
                   </div>
                 ))}
               </div>
@@ -178,10 +238,10 @@ const CreateProduct = () => {
                 {(productTypeQuery ? filteredProductTypes : productTypes).map((productType, index) => (
                   <div
                     key={index}
-                    style={listItemStyle}
-                    onClick={() => setProductTypeQuery(productType)}
+                    style={selectedProductType === productType ? selectedListItemStyle : listItemStyle}
+                    onClick={() => handleProductTypeSelect(productType)}
                   >
-                    {productType}
+                    {productType.name}
                   </div>
                 ))}
               </div>
@@ -201,8 +261,8 @@ const CreateProduct = () => {
           </div>
         </div>
         <div style={buttonContainerStyle}>
-          <button style={buttonStyle} onClick={() => console.log('Submit clicked')}>Submit</button>
-          <button style={buttonStyle} onClick={() => navigate('/')}>Go Back</button>
+          <button style={buttonStyle} onClick={handleSubmit}>Submit</button>
+          <button style={buttonStyle} onClick={resetState}>Go Back</button>
         </div>
       </div>
     </div>

@@ -173,7 +173,8 @@ const CreateProduct = () => {
   const inputGridStyle: React.CSSProperties = {
     display: 'grid',
     gridTemplateRows: 'auto auto',
-    gap: '20px'
+    gap: '20px',
+    marginTop: '20px'
   };
 
   return (
@@ -235,7 +236,6 @@ const CreateProduct = () => {
           </div>
           <div style={{ position: 'relative', width: '100%' }}>
             <div style={searchWrapperStyle}>
-              <div style={iconStyle}>🔍</div>
               <input
                 type="text"
                 placeholder="Enter product name..."

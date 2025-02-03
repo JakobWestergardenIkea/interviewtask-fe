@@ -26,7 +26,7 @@ const Home = () => {
     display: 'grid',
     gridTemplateRows: '10% 10% 80%',
     gridTemplateColumns: '50% 50%',
-    gap: '20px',
+    gap: '80px',
     height: '100vh',
     margin: '0 40px',
     fontSize: '20px'
@@ -39,18 +39,16 @@ const Home = () => {
     justifyContent: 'center'
   };
 
-  const mainContentStyle: React.CSSProperties = {
+  const searchDropdownStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    position: 'relative',
-    padding: '20px'
+    position: 'relative'
   };
 
   const searchWrapperStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    marginTop: '20px',
     width: '80%',
     boxSizing: 'border-box',
     border: '1px solid #ccc',
@@ -79,7 +77,7 @@ const Home = () => {
     border: '1px solid #ccc',
     borderTop: 'none',
     borderRadius: '0 0 4px 4px',
-    maxHeight: '300px',
+    maxHeight: '500px',
     overflowY: 'auto',
     position: 'absolute',
     width: '80%',
@@ -106,26 +104,16 @@ const Home = () => {
     padding: '10px'
   };
 
-  const addProductContainerStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '20px'
-  };
-
   const addProductStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    padding: '20px',
     border: '1px solid #ccc',
-    borderRadius: '4px',
-    width: '80%', 
-    height: '80%',
+    width: '60%', 
+    height: '60%',
     aspectRatio: '1 / 1', 
-    margin: '20px auto'
   };
 
   return (
@@ -135,7 +123,7 @@ const Home = () => {
         <h1>Hello and welcome to IKEA product tool</h1>
         <p>Here you can browse our exciting range of IKEA products. Use the search bar to find specific items, or explore our categories to discover what you need. If there is something missing, you can even add your own products to our collection.</p>
       </div>
-      <div style={mainContentStyle}>
+      <div style={searchDropdownStyle}>
         <div style={{ position: 'relative' }}>
           <div style={searchWrapperStyle}>
             <div style={iconStyle}>🔍</div>
@@ -171,15 +159,13 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div style={addProductContainerStyle}>
-        <Link to="/create" style={{ textDecoration: 'none', color: 'inherit', width: '100%', height: '100%' }}>
-          <div style={addProductStyle}>
-            <h2>Add a new product</h2>
-            <img src={plusIcon} alt="Add new product" style={{ width: '50px', marginTop: '10px' }} />
-          </div>
+      <div style={addProductStyle}>
+        <Link to="/create" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+          <h2>Add a new product</h2>
+          <img src={plusIcon} alt="Add new product" style={{ width: '50px', marginTop: '10px' }} />
         </Link>
       </div>
-    </div>
+      </div>
   );
 };
 

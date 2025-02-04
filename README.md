@@ -5,4 +5,5 @@ Handle errors from backend.
 Cache results.
 Add icon with color when choosing colors
 Add icon of specific producttypes.
+Extract the dropdown menu and place styles there.
 

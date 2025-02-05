@@ -66,7 +66,7 @@ const CreateProduct = () => {
  const containerStyle: React.CSSProperties = {
     display: 'grid',
     gridTemplateRows: '10% 10% 80%',
-    gridTemplateColumns: '65% 35%',
+    gridTemplateColumns: '60% 40%',
     gap: '80px',
     height: '100vh',
     margin: '0 40px',
@@ -78,14 +78,6 @@ const CreateProduct = () => {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center'
-  };
-
-  const mainContentStyle: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: '50% 50%',
-    gap: '20px',
-    padding: '20px',
-    alignItems: 'stretch'
   };
 
   const searchContainerStyle: React.CSSProperties = {
@@ -184,71 +176,69 @@ const CreateProduct = () => {
         <h1>Here you can add your own products to the IKEA line</h1>
         <p>Add a product to the IKEA line and share what product type it is and which colors the product has.</p>
       </div>
-      <div style={mainContentStyle}>
-        <div style={inputGridStyle}>
-          <div style={searchContainerStyle}>
-            <div style={{ position: 'relative', width: '100%' }}>
-              <div style={searchWrapperStyle}>
-                <div style={iconStyle}>🔍</div>
-                <input
-                  type="text"
-                  placeholder="Search for colour..."
-                  value={colorQuery}
-                  onChange={(e) => setColorQuery(e.target.value)}
-                  style={inputStyle}
-                />
-              </div>
-              <div style={dropdownStyle}>
-                {(colorQuery ? filteredColors : colors).map((color, index) => (
-                  <div
-                    key={index}
-                    style={selectedColors.includes(color) ? selectedListItemStyle : listItemStyle}
-                    onClick={() => handleColorSelect(color)}
-                  >
-                    {color.name}
-                  </div>
-                ))}
-              </div>
+      <div style={inputGridStyle}>
+        <div style={searchContainerStyle}>
+          <div style={{ position: 'relative', width: '100%' }}>
+            <div style={searchWrapperStyle}>
+              <div style={iconStyle}>🔍</div>
+              <input
+                type="text"
+                placeholder="Search for colour..."
+                value={colorQuery}
+                onChange={(e) => setColorQuery(e.target.value)}
+                style={inputStyle}
+              />
             </div>
-            <div style={{ position: 'relative', width: '100%' }}>
-              <div style={searchWrapperStyle}>
-                <div style={iconStyle}>🔍</div>
-                <input
-                  type="text"
-                  placeholder="Search for product type..."
-                  value={productTypeQuery}
-                  onChange={(e) => setProductTypeQuery(e.target.value)}
-                  style={inputStyle}
-                />
-              </div>
-              <div style={dropdownStyle}>
-                {(productTypeQuery ? filteredProductTypes : productTypes).map((productType, index) => (
-                  <div
-                    key={index}
-                    style={selectedProductType === productType ? selectedListItemStyle : listItemStyle}
-                    onClick={() => handleProductTypeSelect(productType)}
-                  >
-                    {productType.name}
-                  </div>
-                ))}
-              </div>
+            <div style={dropdownStyle}>
+              {(colorQuery ? filteredColors : colors).map((color, index) => (
+                <div
+                  key={index}
+                  style={selectedColors.includes(color) ? selectedListItemStyle : listItemStyle}
+                  onClick={() => handleColorSelect(color)}
+                >
+                  {color.name}
+                </div>
+              ))}
             </div>
           </div>
           <div style={{ position: 'relative', width: '100%' }}>
             <div style={searchWrapperStyle}>
+              <div style={iconStyle}>🔍</div>
               <input
                 type="text"
-                placeholder="Enter product name..."
-                value={productName}
-                onChange={(e) => setProductName(e.target.value)}
+                placeholder="Search for product type..."
+                value={productTypeQuery}
+                onChange={(e) => setProductTypeQuery(e.target.value)}
                 style={inputStyle}
               />
             </div>
+            <div style={dropdownStyle}>
+              {(productTypeQuery ? filteredProductTypes : productTypes).map((productType, index) => (
+                <div
+                  key={index}
+                  style={selectedProductType === productType ? selectedListItemStyle : listItemStyle}
+                  onClick={() => handleProductTypeSelect(productType)}
+                >
+                  {productType.name}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-        <div style={buttonContainerStyle}>
-          <button style={buttonStyle} onClick={handleSubmit}>Submit</button>
+        <div style={{ position: 'relative', width: '100%' }}>
+          <div style={searchWrapperStyle}>
+            <input
+              type="text"
+              placeholder="Enter product name..."
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
+              style={inputStyle}
+            />
+          </div>
         </div>
+      </div>
+      <div style={buttonContainerStyle}>
+        <button style={buttonStyle} onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );

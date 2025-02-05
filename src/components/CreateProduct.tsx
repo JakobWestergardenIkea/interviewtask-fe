@@ -192,7 +192,7 @@ const CreateProduct = () => {
                 <div style={iconStyle}>🔍</div>
                 <input
                   type="text"
-                  placeholder="Search for color..."
+                  placeholder="Search for colour..."
                   value={colorQuery}
                   onChange={(e) => setColorQuery(e.target.value)}
                   style={inputStyle}

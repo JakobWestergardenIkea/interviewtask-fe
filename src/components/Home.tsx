@@ -25,7 +25,7 @@ const Home = () => {
   const containerStyle: React.CSSProperties = {
     display: 'grid',
     gridTemplateRows: '10% 10% 80%',
-    gridTemplateColumns: '50% 50%',
+    gridTemplateColumns: '65% 35%',
     gap: '80px',
     height: '100vh',
     margin: '0 40px',
@@ -142,7 +142,7 @@ const Home = () => {
                   <th style={thStyle}>ID</th>
                   <th style={thStyle}>Name</th>
                   <th style={thStyle}>Product Type</th>
-                  <th style={thStyle}>Colors</th>
+                  <th style={thStyle}>Colours</th>
                 </tr>
               </thead>
               <tbody>

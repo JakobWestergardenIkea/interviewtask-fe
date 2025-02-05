@@ -6,7 +6,7 @@ $ yarn start
 
 ## TODO
 - Style the pages using Skapa components
-- Align placement more
+- Dynamic component scaling based on resolution
 - Handle errors from backend
 - Add icon with color when choosing colors (add hexcode in colours collection for this)
 - Add icon of specific product types

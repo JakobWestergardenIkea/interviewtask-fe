@@ -63,11 +63,11 @@ const CreateProduct = () => {
     navigate('/');
   };
 
-  const containerStyle: React.CSSProperties = {
+ const containerStyle: React.CSSProperties = {
     display: 'grid',
     gridTemplateRows: '10% 10% 80%',
-    gridTemplateColumns: '100%',
-    gap: '20px',
+    gridTemplateColumns: '65% 35%',
+    gap: '80px',
     height: '100vh',
     margin: '0 40px',
     fontSize: '20px'
@@ -125,7 +125,7 @@ const CreateProduct = () => {
     border: '1px solid #ccc',
     borderTop: 'none',
     borderRadius: '0 0 4px 4px',
-    maxHeight: '300px',
+    maxHeight: '200px',
     overflowY: 'auto',
     position: 'absolute',
     width: '100%',
